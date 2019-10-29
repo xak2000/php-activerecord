@@ -32,6 +32,9 @@ class MysqlAdapter extends Connection
 
 	public function create_column(&$column)
 	{
+		// A workaround for a case when $PDO_OPTIONS[PDO::ATTR_CASE] = PDO::CASE_NATURAL or PDO::CASE_UPPER
+		$column = array_change_key_case($column, CASE_LOWER);
+
 		$c = new Column();
 		$c->inflected_name	= Inflector::instance()->variablize($column['field']);
 		$c->name			= $column['field'];
